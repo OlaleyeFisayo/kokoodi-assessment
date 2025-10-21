@@ -84,7 +84,7 @@ This feature eliminates repetitive typing for users who frequently generate repo
 ## Running the Project
 
 ### Frontend
-Open `frontend/index.html` in a browser or load it as a Word task pane add-in.
+Open `frontend/index.html` in a browser
 
 ### Backend
 ```bash
