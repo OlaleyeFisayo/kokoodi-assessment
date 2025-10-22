@@ -65,7 +65,9 @@
   }
 
   .segmented-control input[type="radio"] {
-   display: none;
+   position: absolute;
+   opacity: 0;
+   pointer-events: none;
   }
 
   .segmented-control label {
@@ -76,10 +78,15 @@
    font-weight: 500;
    color: #737373;
    cursor: pointer;
-   transition: color 0.2s ease;
+   transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
    z-index: 1;
    border-radius: 6px;
    line-height: 1.3;
+  }
+
+  .segmented-control label:focus-visible {
+   outline: 2px solid #3b82f6;
+   outline-offset: 2px;
   }
 
   .segmented-control input[type="radio"]:checked+label {
@@ -386,16 +393,16 @@
 
  <form id="reportForm" class="form-section">
   <div class="form-group">
-   <label>Report Type</label>
-   <div class="segmented-control">
-    <input type="radio" id="reportPL" name="reportType" value="pl" checked>
-    <label for="reportPL">P&L</label>
+   <label id="reportTypeLabel">Report Type</label>
+   <div class="segmented-control" role="radiogroup" aria-labelledby="reportTypeLabel">
+    <input type="radio" id="reportPL" name="reportType" value="pl" checked aria-checked="true">
+    <label for="reportPL" role="radio" tabindex="0" aria-checked="true">P&L</label>
 
-    <input type="radio" id="reportBS" name="reportType" value="balance_sheet">
-    <label for="reportBS">Balance Sheet</label>
+    <input type="radio" id="reportBS" name="reportType" value="balance_sheet" aria-checked="false">
+    <label for="reportBS" role="radio" tabindex="-1" aria-checked="false">Balance Sheet</label>
 
-    <input type="radio" id="reportCF" name="reportType" value="cash_flow">
-    <label for="reportCF">Cash Flow</label>
+    <input type="radio" id="reportCF" name="reportType" value="cash_flow" aria-checked="false">
+    <label for="reportCF" role="radio" tabindex="-1" aria-checked="false">Cash Flow</label>
    </div>
   </div>
 

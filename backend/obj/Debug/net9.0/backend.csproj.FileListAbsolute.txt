@@ -17,3 +17,15 @@ C:\Users\festu\Documents\github\kokoodi_assessment\backend\obj\Debug\net9.0\refi
 C:\Users\festu\Documents\github\kokoodi_assessment\backend\obj\Debug\net9.0\backend.pdb
 C:\Users\festu\Documents\github\kokoodi_assessment\backend\obj\Debug\net9.0\backend.genruntimeconfig.cache
 C:\Users\festu\Documents\github\kokoodi_assessment\backend\obj\Debug\net9.0\ref\backend.dll
+C:\Users\festu\Documents\github\kokoodi_assessment\backend\bin\Debug\net9.0\backend.staticwebassets.endpoints.json
+C:\Users\festu\Documents\github\kokoodi_assessment\backend\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\Users\festu\Documents\github\kokoodi_assessment\backend\obj\Debug\net9.0\backend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\festu\Documents\github\kokoodi_assessment\backend\obj\Debug\net9.0\backend.sourcelink.json
+C:\Users\festu\Documents\github\kokoodi_assessment\backend\obj\Debug\net9.0\rjimswa.dswa.cache.json
+C:\Users\festu\Documents\github\kokoodi_assessment\backend\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
+C:\Users\festu\Documents\github\kokoodi_assessment\backend\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
+C:\Users\festu\Documents\github\kokoodi_assessment\backend\obj\Debug\net9.0\scopedcss\bundle\backend.styles.css
+C:\Users\festu\Documents\github\kokoodi_assessment\backend\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\festu\Documents\github\kokoodi_assessment\backend\obj\Debug\net9.0\staticwebassets.build.json.cache
+C:\Users\festu\Documents\github\kokoodi_assessment\backend\obj\Debug\net9.0\staticwebassets.development.json
+C:\Users\festu\Documents\github\kokoodi_assessment\backend\obj\Debug\net9.0\staticwebassets.build.endpoints.json

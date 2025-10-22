@@ -127,16 +127,15 @@ function showSuccess(reportData) {
  successMessage.classList.add('show');
 }
 
-// Send report request to backend API
+// Send report request to backend API and download the file
 async function sendToBackend(reportData) {
- const apiEndpoint = '/api/reports/generate';
+ const apiEndpoint = 'http://localhost:5000/api/reports/generate';
 
  try {
   const response = await fetch(apiEndpoint, {
    method: 'POST',
    headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
+    'Content-Type': 'application/json'
    },
    body: JSON.stringify(reportData)
   });
@@ -148,7 +147,34 @@ async function sendToBackend(reportData) {
    );
   }
 
-  return await response.json();
+  // Get the blob (Word document)
+  const blob = await response.blob();
+
+  // Extract filename from Content-Disposition header if available
+  const contentDisposition = response.headers.get('Content-Disposition');
+  let filename = `Report_${reportData.clientName}_${reportData.year}.docx`;
+
+  if (contentDisposition) {
+   const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
+   if (filenameMatch) {
+    filename = filenameMatch[1];
+   }
+  }
+
+  // Create a download link and trigger download
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.style.display = 'none';
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+
+  // Cleanup
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+
+  return { success: true, filename };
  } catch (error) {
   console.error('Error sending data to backend:', error);
   throw error;
@@ -171,17 +197,21 @@ document.getElementById('reportForm').addEventListener('submit', async function 
 
   console.log('Report request:', JSON.stringify(reportData, null, 2));
 
-  // TODO: Replace with actual backend call
-  // const response = await sendToBackend(reportData);
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  // Call backend API and download the file
+  const response = await sendToBackend(reportData);
 
-  showSuccess(reportData);
+  // Update success message with download confirmation
+  const successMessage = document.getElementById('successMessage');
+  const successText = document.getElementById('successText');
+  successText.textContent = `${reportData.reportTypeName} for ${reportData.clientName} (${reportData.year}) • Download started: ${response.filename}`;
+  successMessage.classList.add('show');
+
   clientHistory.saveClient(reportData.clientName);
   document.getElementById('clientName').value = '';
 
   setTimeout(() => {
    document.getElementById('successMessage').classList.remove('show');
-  }, 5000);
+  }, 7000);
 
  } catch (error) {
   alert('Failed to generate report. Please try again.');
@@ -272,4 +302,65 @@ document.addEventListener('DOMContentLoaded', function () {
  if (recentClients.length > 0) {
   console.log('Client history loaded:', recentClients.length, 'recent clients');
  }
+
+ // Setup keyboard navigation for segmented control (radiogroup)
+ setupRadioGroupKeyboardNavigation();
 });
+
+// Keyboard navigation for segmented control
+function setupRadioGroupKeyboardNavigation() {
+ const labels = document.querySelectorAll('.segmented-control label[role="radio"]');
+ const radios = document.querySelectorAll('input[name="reportType"]');
+
+ labels.forEach((label, index) => {
+  // Handle keyboard navigation on labels
+  label.addEventListener('keydown', (e) => {
+   let targetIndex;
+
+   if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+    e.preventDefault();
+    targetIndex = (index + 1) % labels.length;
+   } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    targetIndex = (index - 1 + labels.length) % labels.length;
+   } else if (e.key === ' ' || e.key === 'Enter') {
+    e.preventDefault();
+    radios[index].checked = true;
+    updateRadioGroupState();
+    return;
+   } else {
+    return;
+   }
+
+   radios[targetIndex].checked = true;
+   labels[targetIndex].focus();
+   updateRadioGroupState();
+  });
+
+  // Handle click on labels
+  label.addEventListener('click', () => {
+   radios[index].checked = true;
+   updateRadioGroupState();
+  });
+ });
+
+ // Also handle change events on the actual radio inputs
+ radios.forEach(radio => {
+  radio.addEventListener('change', updateRadioGroupState);
+ });
+
+ // Initialize the state
+ updateRadioGroupState();
+}
+
+function updateRadioGroupState() {
+ const radios = document.querySelectorAll('input[name="reportType"]');
+ const labels = document.querySelectorAll('.segmented-control label[role="radio"]');
+
+ radios.forEach((radio, index) => {
+  const isChecked = radio.checked;
+  radio.setAttribute('aria-checked', isChecked.toString());
+  labels[index].setAttribute('aria-checked', isChecked.toString());
+  labels[index].tabIndex = isChecked ? 0 : -1;
+ });
+}
