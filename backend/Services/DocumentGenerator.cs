@@ -110,7 +110,7 @@ public class DocumentGenerator
         Paragraph contentPara = body.AppendChild(new Paragraph());
         Run contentRun = contentPara.AppendChild(new Run());
         contentRun.AppendChild(new Text(
-            "This is a sample financial report generated using the OpenXML SDK. " +
+            "This is a sample financial report generated using the OpenXML SDK. "
         ));
     }
 
