@@ -25,8 +25,6 @@ public class DocumentGenerator
             AddYearInfo(body, year);
             AddSpacing(body);
             AddMetadata(body, reportId);
-            AddSpacing(body);
-            AddFinancialSummary(body);
 
             mainPart.Document.Save();
         }
@@ -91,27 +89,6 @@ public class DocumentGenerator
 
         string metadata = $"Generated: {DateTime.Now:yyyy-MM-dd HH:mm:ss}\nReport ID: {reportId}";
         metaRun.AppendChild(new Text(metadata) { Space = SpaceProcessingModeValues.Preserve });
-    }
-
-    /// <summary>
-    /// Adds the main content section with financial summary
-    /// </summary>
-    private void AddFinancialSummary(Body body)
-    {
-        Paragraph contentHeaderPara = body.AppendChild(new Paragraph());
-        Run contentHeaderRun = contentHeaderPara.AppendChild(new Run());
-
-        RunProperties contentHeaderProps = contentHeaderRun.AppendChild(new RunProperties());
-        contentHeaderProps.AppendChild(new Bold());
-        contentHeaderProps.AppendChild(new FontSize() { Val = "24" });
-
-        contentHeaderRun.AppendChild(new Text("Financial Summary"));
-
-        Paragraph contentPara = body.AppendChild(new Paragraph());
-        Run contentRun = contentPara.AppendChild(new Run());
-        contentRun.AppendChild(new Text(
-            "This is a sample financial report generated using the OpenXML SDK. "
-        ));
     }
 
     /// <summary>
